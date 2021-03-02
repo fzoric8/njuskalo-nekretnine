@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# TODO: Parse the whole Oglas table for a more detailed database
 import scrapy
-from scrapy import log
+import logging
 from scraper.items import BaseOglasItem
 import datetime
 
@@ -15,6 +14,8 @@ class BaseNekretnineSpider(scrapy.Spider):
     allowed_domains = ['njuskalo.hr']
     url_base = ''
     start_urls = []
+
+    logging.basicConfig(filename="test.log", level=logging.INFO)
 
     def parse(self, response):
 
@@ -31,7 +32,7 @@ class BaseNekretnineSpider(scrapy.Spider):
             if link[:12] == u'/nekretnine/': #FIXME if u'/nekretnine/' in link:
                 yield scrapy.Request(self.url_base + link, callback=self.parse_oglas)
             else:
-                log.msg('Rejecting link: %s' % link, level=log.INFO)
+                logging.info('Rejecting link: %s' % link, level=log.INFO)
 
         pagination = response.xpath(u'//a[text() = "Sljede\u0107a\xa0"]/@href').extract_first()
         if pagination:

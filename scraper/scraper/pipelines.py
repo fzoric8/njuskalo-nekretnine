@@ -9,8 +9,8 @@
 
 
 
-from scrapy import log
-from OglasModel import Oglas, Grad, Naselje, Zupanija
+import logging
+from .OglasModel import Oglas, Grad, Naselje, Zupanija
 import datetime
 
 
@@ -47,7 +47,7 @@ class ORMPersist(object):
         if not saved:
             q = Oglas.update(active=True, last_active=datetime.datetime.now()).where(Oglas.link == item['link'])
             q.execute()
-            log.msg('Exists in database - set as active : %s' % ogl.link, level=log.INFO)
+            logfing.info('Exists in database - set as active : %s' % ogl.link)
 
     def process_item(self, item, spider):
 
